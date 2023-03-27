@@ -78,7 +78,7 @@ with st.container() :
 	with st.form(key = 'stock_submission') :
 		stock_dropdown, stock_input = st.columns(2, gap = 'medium')
 
-		stocks = ('TATAMOTORS.NS', 'RELIANCE.NS', 'INFY', 'WIT', 'TCS.NS')
+		stocks = ('TCS.NS', 'TATAMOTORS.NS', 'HDB', 'ADANIENT.NS', 'ICICIBANK.NS', 'ITC.NS', 'APOLLOHOSP.NS', 'BHARTIARTL.BO', 'KOTAKBANK.NS', 'LICI.NS', 'BAJFINANCE.NS', 'RELIANCE.NS', 'INFY', 'WIT', 'JIORX')
 		selected_stock = stock_dropdown.selectbox('**Select stock ticker symbol for prediction :**', stocks, key = 'dropdown_stock')
 		manual_stock = stock_input.text_input('**Or enter stock ticker symbol here if not available in drop-down :**', placeholder = 'TICKER', key = 'manual_stock')
 
