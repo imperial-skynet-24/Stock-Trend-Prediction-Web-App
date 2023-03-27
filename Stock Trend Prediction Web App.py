@@ -265,7 +265,7 @@ with st.container() :
 
 st.subheader('Forecast analytics :')
 with st.container() :
-	with st.expander(label = 'Expand to view :') :
+	with st.expander(label = 'Expand to view :', expanded = True) :
 		performance_metric, plot_components = st.columns(2, gap = 'large')
 
 		performance_metric.markdown("<h2 style='text-align: center;'> Performance Metrics </h2>", unsafe_allow_html = True)
@@ -304,7 +304,7 @@ st.text('')
 st.text('')
 
 st.subheader('Performance Test :')
-with st.expander(label = 'Expand to view') :
+with st.expander(label = 'Expand to view', expanded = True) :
 	st.text('')
 	start_date_column, end_date_column = st.columns(2, gap = 'medium')
 
