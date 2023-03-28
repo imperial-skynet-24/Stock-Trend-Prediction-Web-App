@@ -264,7 +264,7 @@ with st.container() :
 
 st.subheader('Forecast analytics :')
 with st.container() :
-	with st.expander(label = 'Expand to view :', expanded = True) :
+	with st.expander(label = 'Expand to view :') :
 		performance_metric, plot_components = st.columns(2, gap = 'large')
   
 		def forecast_analytics() :
@@ -306,7 +306,7 @@ st.text('')
 st.text('')
 
 st.subheader('Performance Test :')
-with st.expander(label = 'Expand to view', expanded = False) :
+with st.expander(label = 'Expand to view') :
 	st.text('')
 
 	start_date_column, end_date_column = st.columns(2, gap = 'medium')
@@ -386,7 +386,7 @@ st.text('')
 
 
 st.subheader('Advanced analytics :')
-with st.expander(label = 'Expand to view', expanded = True) :
+with st.expander(label = 'Expand to view') :
 	stock_data, forecast_data = st.columns(2, gap = 'large')
 	stock_data.markdown("<h2 style='text-align: center;'> Stock Data </h2>", unsafe_allow_html=True)
 	forecast_data.markdown("<h2 style='text-align: center;'> Forecast Data </h2>", unsafe_allow_html=True)
