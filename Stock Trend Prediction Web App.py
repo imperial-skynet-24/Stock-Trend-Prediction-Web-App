@@ -185,25 +185,25 @@ with st.container() :
 
 		data_vis.plotly_chart(heiken_ashi_chart, use_container_width = True)
 
-		st.text('')
+	st.text('')
 
-		chart_type = data_vis.selectbox(label = '**Select your desired chart type :**', options = ('Line Chart', 'Scatter Plot', 'Waterfall Chart', 'OHLC', 'Candlestick', 'Heiken Ashi'))
+	chart_type = data_vis.selectbox(label = '**Select your desired chart type :**', options = ('Line Chart', 'Scatter Plot', 'Waterfall Chart', 'OHLC', 'Candlestick', 'Heiken Ashi'))
 
-		if chart_type == 'Line Chart' :
-			attribute_1, attribute_2 = data_vis.columns(2, gap = 'large')
-			attribute_1, attribute_2 = attribute_1.selectbox(label = 'Select attribute 1 :', options = data.columns[1:]), attribute_2.selectbox(label = 'Select attribute 2 :', options = data.columns[1:])
-			line_chart(attribute_1, attribute_2)
-		elif chart_type == 'Scatter Plot' :
-			attribute_1, attribute_2 = data_vis.columns(2, gap = 'large')
-			attribute_1, attribute_2 = attribute_1.selectbox(label = 'Select attribute 1 :', options = data.columns[1:]), attribute_2.selectbox(label = 'Select attribute 2 :', options = data.columns[1:])
-			scatter_plot(attribute_1, attribute_2)
-		elif chart_type == 'Candlestick' : candlestick_chart()
-		elif chart_type == 'OHLC': ohlc_chart()
-		elif chart_type == 'Waterfall Chart' : waterfall_chart()
-		elif chart_type == 'Heiken Ashi' : heiken_ashi_chart()
+	if chart_type == 'Line Chart' :
+		attribute_1, attribute_2 = data_vis.columns(2, gap = 'large')
+		attribute_1, attribute_2 = attribute_1.selectbox(label = 'Select attribute 1 :', options = data.columns[1:]), attribute_2.selectbox(label = 'Select attribute 2 :', options = data.columns[1:])
+		line_chart(attribute_1, attribute_2)
+	elif chart_type == 'Scatter Plot' :
+		attribute_1, attribute_2 = data_vis.columns(2, gap = 'large')
+		attribute_1, attribute_2 = attribute_1.selectbox(label = 'Select attribute 1 :', options = data.columns[1:]), attribute_2.selectbox(label = 'Select attribute 2 :', options = data.columns[1:])
+		scatter_plot(attribute_1, attribute_2)
+	elif chart_type == 'Candlestick' : candlestick_chart()
+	elif chart_type == 'OHLC': ohlc_chart()
+	elif chart_type == 'Waterfall Chart' : waterfall_chart()
+	elif chart_type == 'Heiken Ashi' : heiken_ashi_chart()
 
-		raw_data.text('')
-		raw_data.text('')
+	raw_data.text('')
+	raw_data.text('')
 
 	raw_data.expander(label = 'Expand to view raw data :').dataframe(data.set_index('Date'), use_container_width = True)
 	raw_data.download_button(label = 'Download Data', data = data.to_csv().encode('utf-8'), file_name = (f'{selected_stock} - {START} to {END}.csv'))
@@ -309,80 +309,75 @@ st.subheader('Performance Test :')
 with st.expander(label = 'Expand to view', expanded = False) :
 	st.text('')
 
-	@st.cache_resource(experimental_allow_widgets = True)
-	@st.cache_data(experimental_allow_widgets = True)
-	def performance_input() :
-		start_date_column, end_date_column = st.columns(2, gap = 'medium')
-  
-		train_start_date = start_date_column.date_input(label = '**Enter start date for training data** :',
-														value = datetime.strptime('2022-01-01', '%Y-%m-%d'),
-														min_value = ipo_launch, max_value = datetime.today() - timedelta(days = 1),
-														key = 'train_start_date', help = 'Enter the start date to train the model from')
+	start_date_column, end_date_column = st.columns(2, gap = 'medium')
 
-		train_end_date = end_date_column.date_input(label = '**Enter end date for training data** :', value = datetime.strptime('2022-12-31', '%Y-%m-%d'),
-													min_value = train_start_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1),
-													key = 'train_end_date', help = 'End date to train the model to *(can be a few months later than start date)*')
+	train_start_date = start_date_column.date_input(label = '**Enter start date for training data** :',
+													value = datetime.strptime('2022-01-01', '%Y-%m-%d'),
+													min_value = ipo_launch, max_value = datetime.today() - timedelta(days = 1),
+													key = 'train_start_date', help = 'Enter the start date to train the model from')
 
-		start_date_column.text('')
-		end_date_column.text('')
+	train_end_date = end_date_column.date_input(label = '**Enter end date for training data** :', value = datetime.strptime('2022-12-31', '%Y-%m-%d'),
+												min_value = train_start_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1),
+												key = 'train_end_date', help = 'End date to train the model to *(can be a few months later than start date)*')
 
-		test_start_date = start_date_column.date_input(label = '**Enter start date for testing data** :',
-													value = datetime.strptime('2023-01-01', '%Y-%m-%d'),
-													min_value = train_end_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1),
-													key = 'test_start_date', help = 'Enter the start date to view the stock from')
+	start_date_column.text('')
+	end_date_column.text('')
 
-		test_end_date = end_date_column.date_input(label = '**Enter end date for testing data** :', value = datetime.today() - timedelta(days = 1),
-												min_value = train_start_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1), key = 'test_end_date',
-												help = 'End date to view the stock to *(can be a day later than start date)*')
+	test_start_date = start_date_column.date_input(label = '**Enter start date for testing data** :',
+												value = datetime.strptime('2023-01-01', '%Y-%m-%d'),
+												min_value = train_end_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1),
+												key = 'test_start_date', help = 'Enter the start date to view the stock from')
 
-		performance_train_data, performance_test_data = whole_data[(whole_data['Date'] >= pd.to_datetime(train_start_date)) & (whole_data['Date'] <= pd.to_datetime(train_end_date))], whole_data[(whole_data['Date'] >= pd.to_datetime(test_start_date)) & (whole_data['Date'] <= pd.to_datetime(test_end_date))]
-		performance_attribute = start_date_column.selectbox(label = '**Select attribute to be forecasted :**', options = performance_train_data.columns[1:], key = 'performance_attributes')
+	test_end_date = end_date_column.date_input(label = '**Enter end date for testing data** :', value = datetime.today() - timedelta(days = 1),
+											min_value = train_start_date + timedelta(days = 1), max_value = datetime.today() - timedelta(days = 1), key = 'test_end_date',
+											help = 'End date to view the stock to *(can be a day later than start date)*')
 
-		daily_seasonality, weekly_seasonality, yearly_seasonality = end_date_column.columns(3, gap = 'small')
-		performance_daily_seasonality = daily_seasonality.radio("Select daily seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_daily_seasonality', help = 'Set daily seasonality for the forecast model')
-		forecast_params.text('')
-		performance_weekly_seasonality = weekly_seasonality.radio("Select weekly seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_weekly_seasonality', help = 'Set monthly seasonality for the forecast model')
-		forecast_params.text('')
-		performance_yearly_seasonality = yearly_seasonality.radio("Select yearly seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_yearly_seasonality', help = 'Set yearly seasonality for the forecast model')
+	performance_train_data, performance_test_data = whole_data[(whole_data['Date'] >= pd.to_datetime(train_start_date)) & (whole_data['Date'] <= pd.to_datetime(train_end_date))], whole_data[(whole_data['Date'] >= pd.to_datetime(test_start_date)) & (whole_data['Date'] <= pd.to_datetime(test_end_date))]
+	performance_attribute = start_date_column.selectbox(label = '**Select attribute to be forecasted :**', options = performance_train_data.columns[1:], key = 'performance_attributes')
 
-		performance_model, performance_forecast = prophet_modelling(performance_train_data, performance_attribute, performance_daily_seasonality, performance_weekly_seasonality, performance_yearly_seasonality, (test_end_date - test_start_date).days, include_history = False)
+	daily_seasonality, weekly_seasonality, yearly_seasonality = end_date_column.columns(3, gap = 'small')
+	performance_daily_seasonality = daily_seasonality.radio("Select daily seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_daily_seasonality', help = 'Set daily seasonality for the forecast model')
+	forecast_params.text('')
+	performance_weekly_seasonality = weekly_seasonality.radio("Select weekly seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_weekly_seasonality', help = 'Set monthly seasonality for the forecast model')
+	forecast_params.text('')
+	performance_yearly_seasonality = yearly_seasonality.radio("Select yearly seasonality :", [True, False, 'auto'], horizontal = False, key = 'performance_yearly_seasonality', help = 'Set yearly seasonality for the forecast model')
 
-		st.text('')
+	performance_model, performance_forecast = prophet_modelling(performance_train_data, performance_attribute, performance_daily_seasonality, performance_weekly_seasonality, performance_yearly_seasonality, (test_end_date - test_start_date).days, include_history = False)
 
-		forecast_plot = go.Scatter(x = performance_forecast['ds'], y = performance_forecast['yhat'], mode = 'lines', name = 'Forecasted Data', marker = {'color' : 'red'})
-		actual_plot = go.Scatter(x = performance_test_data['Date'], y = performance_test_data['High'], mode = 'markers', name = 'Actual Data', marker = {'color' : 'blue'})
-		performance_plot = go.Figure(data = [actual_plot, forecast_plot], layout = go.Layout(title = 'Prophet Forecast Vs. Actual Data', xaxis = dict(title = 'Date', rangeslider = dict(visible = True)), yaxis = dict(title = f'{performance_attribute}'), showlegend = True))
+	st.text('')
 
-		st.plotly_chart(performance_plot, use_container_width = True)
+	forecast_plot = go.Scatter(x = performance_forecast['ds'], y = performance_forecast['yhat'], mode = 'lines', name = 'Forecasted Data', marker = {'color' : 'red'})
+	actual_plot = go.Scatter(x = performance_test_data['Date'], y = performance_test_data['High'], mode = 'markers', name = 'Actual Data', marker = {'color' : 'blue'})
+	performance_plot = go.Figure(data = [actual_plot, forecast_plot], layout = go.Layout(title = 'Prophet Forecast Vs. Actual Data', xaxis = dict(title = 'Date', rangeslider = dict(visible = True)), yaxis = dict(title = f'{performance_attribute}'), showlegend = True))
 
-		if performance_test_data.index.name != 'Date' : performance_test_data.set_index(['Date'], inplace = True)
-		if performance_forecast.index.name != 'ds' : performance_forecast.set_index(['ds'], inplace = True)
+	st.plotly_chart(performance_plot, use_container_width = True)
 
-		for date in performance_forecast.index :
-			if not date in list(performance_test_data.index) :
-				performance_forecast.drop(performance_forecast.loc[performance_forecast.index == date].index, inplace = True)
+	if performance_test_data.index.name != 'Date' : performance_test_data.set_index(['Date'], inplace = True)
+	if performance_forecast.index.name != 'ds' : performance_forecast.set_index(['ds'], inplace = True)
 
-		for date in performance_test_data.index :
-			if not date in performance_forecast.index :
-				performance_test_data.drop(performance_test_data.loc[performance_test_data.index == date].index, axis = 'index', inplace = True)
+	for date in performance_forecast.index :
+		if not date in list(performance_test_data.index) :
+			performance_forecast.drop(performance_forecast.loc[performance_forecast.index == date].index, inplace = True)
 
-		mae = mean_absolute_error(performance_test_data[performance_attribute], performance_forecast['yhat'])
-		mse = mean_squared_error(performance_test_data[performance_attribute], performance_forecast['yhat'])
-		rmse = np.sqrt(mse)
-		mape = np.mean(np.abs((performance_test_data[performance_attribute] - performance_forecast['yhat']) / performance_test_data[performance_attribute])) * 100
-		smape = np.mean(2 * np.abs(performance_forecast['yhat'] - performance_test_data[performance_attribute]) / (np.abs(performance_test_data[performance_attribute]) + np.abs(performance_forecast['yhat']))) * 100
+	for date in performance_test_data.index :
+		if not date in performance_forecast.index :
+			performance_test_data.drop(performance_test_data.loc[performance_test_data.index == date].index, axis = 'index', inplace = True)
 
-		performance_metric.text('')
-		performance_metric.text('')
+	mae = mean_absolute_error(performance_test_data[performance_attribute], performance_forecast['yhat'])
+	mse = mean_squared_error(performance_test_data[performance_attribute], performance_forecast['yhat'])
+	rmse = np.sqrt(mse)
+	mape = np.mean(np.abs((performance_test_data[performance_attribute] - performance_forecast['yhat']) / performance_test_data[performance_attribute])) * 100
+	smape = np.mean(2 * np.abs(performance_forecast['yhat'] - performance_test_data[performance_attribute]) / (np.abs(performance_test_data[performance_attribute]) + np.abs(performance_forecast['yhat']))) * 100
 
-		mae_, mse_, rmse_, mape_, smape_ = st.columns(5, gap = 'small')
-		mae_.metric(label = '**Mean Absolute Error**', value = round(mae, 2))
-		mse_.metric(label = '**Mean Squared Error**', value = round(mse, 2))
-		rmse_.metric(label = '**Root Mean Squared Error**', value = round(rmse, 2))
-		mape_.metric(label = '**Mean Absolute Percentage Error**', value = round(mape, 2))
-		smape_.metric(label = '**Symmetric Mean Absolute Percentage Error**', value = round(smape, 2))
+	performance_metric.text('')
+	performance_metric.text('')
 
-	performance_input()
+	mae_, mse_, rmse_, mape_, smape_ = st.columns(5, gap = 'small')
+	mae_.metric(label = '**Mean Absolute Error**', value = round(mae, 2))
+	mse_.metric(label = '**Mean Squared Error**', value = round(mse, 2))
+	rmse_.metric(label = '**Root Mean Squared Error**', value = round(rmse, 2))
+	mape_.metric(label = '**Mean Absolute Percentage Error**', value = round(mape, 2))
+	smape_.metric(label = '**Symmetric Mean Absolute Percentage Error**', value = round(smape, 2))
 
 
 st.text('')
@@ -393,7 +388,6 @@ st.text('')
 st.subheader('Advanced analytics :')
 with st.expander(label = 'Expand to view', expanded = True) :
 	stock_data, forecast_data = st.columns(2, gap = 'large')
-
 	stock_data.markdown("<h2 style='text-align: center;'> Stock Data </h2>", unsafe_allow_html=True)
 	forecast_data.markdown("<h2 style='text-align: center;'> Forecast Data </h2>", unsafe_allow_html=True)
 	with st.container() :
@@ -416,8 +410,6 @@ with st.expander(label = 'Expand to view', expanded = True) :
 			stock_data.text('')
 			forecast_data.text('')
 
-		data_description()
-
 
 		stock_data.subheader('Stationarity Tests')
 		forecast_data.subheader('Stationarity Tests')
@@ -431,15 +423,15 @@ with st.expander(label = 'Expand to view', expanded = True) :
 
 		if (kpssresult[1] > 0.05) : stock_data.markdown(f"""The data is **:green[STATIONARY]**
 
-		1) Test Statistic : {kpssresult[0]}
-	2) p-value : {kpssresult[1]}
-	3) Critical Value : {kpssresult[3]}""")
+			1) Test Statistic : {kpssresult[0]}
+		2) p-value : {kpssresult[1]}
+		3) Critical Value : {kpssresult[3]}""")
 
 		elif (kpssresult[1] < 0.05) : stock_data.markdown(f"""The data is **:red[NON-STATIONARY]**
 
-			1) Test Statistic : {kpssresult[0]}
-	2) p-value : {kpssresult[1]}
-	3) Critical Value : {kpssresult[3]}""")
+				1) Test Statistic : {kpssresult[0]}
+		2) p-value : {kpssresult[1]}
+		3) Critical Value : {kpssresult[3]}""")
 
 		stationarity_forecast_attribute_input, forecast_lag_input, forecast_regression_input = forecast_data.columns(3, gap = 'small')
 		stationarity_forecast_attribute = stationarity_forecast_attribute_input.selectbox(label = 'Select data attribute :', options = forecast.columns[1:], key = 'forecast_stationarity')
@@ -450,21 +442,21 @@ with st.expander(label = 'Expand to view', expanded = True) :
 
 		if (kpssresult[1] > 0.05) : forecast_data.markdown(f"""The data is **:green[STATIONARY]**
 
-		1) Test Statistic : {kpssresult[0]}
-	2) p-value : {kpssresult[1]}
-	3) Critical Value : {kpssresult[3]}""")
+			1) Test Statistic : {kpssresult[0]}
+		2) p-value : {kpssresult[1]}
+		3) Critical Value : {kpssresult[3]}""")
 
 		elif (kpssresult[1] < 0.05) : forecast_data.markdown(f"""The data is **:red[NON-STATIONARY]**
 
-		1) Test Statistic : {kpssresult[0]}
-	2) p-value : {kpssresult[1]}
-	3) Critical Value : {kpssresult[3]}""")
+			1) Test Statistic : {kpssresult[0]}
+		2) p-value : {kpssresult[1]}
+		3) Critical Value : {kpssresult[3]}""")
 
 
-	stock_data.text('')
-	forecast_data.text('')
-	stock_data.text('')
-	forecast_data.text('')
+		stock_data.text('')
+		forecast_data.text('')
+		stock_data.text('')
+		forecast_data.text('')
 
 
 	stock_data.subheader("Auto-correlation :")
