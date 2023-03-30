@@ -6,7 +6,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 from plotly import graph_objs as go, subplots
 from statsmodels.tools.eval_measures import rmse
 from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf, adfuller, kpss
+from statsmodels.tsa.stattools import acf, pacf, kpss
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -548,7 +548,7 @@ with st.expander(label = 'Expand to view') :
 
 			decomposition_figure = subplots.make_subplots(rows = 4, cols = 1, subplot_titles = ['Observed', 'Trend', 'Seasonal', 'Residuals'])
 			decomposition_figure.add_trace(go.Scatter(x = data['Date'], y = result.observed, mode = 'lines', name = 'Observed'), row = 1, col = 1)
-			decomposition_figure.add_trace(go.Scatter(x = data['Date'], y = result.trend, mode = 'lines', name = 'Trend'), row = 2,col = 1)
+			decomposition_figure.add_trace(go.Scatter(x = data['Date'], y = result.trend, mode = 'lines', name = 'Trend'), row = 2, col = 1)
 			decomposition_figure.add_trace(go.Scatter(x = data['Date'], y = result.seasonal, mode = 'lines', name = 'Seasonal'), row = 3, col = 1)
 			decomposition_figure.add_trace(go.Scatter(x = data['Date'], y = result.resid, mode = 'lines', name = 'Residual'), row = 4, col = 1)
 			decomposition_figure.update_layout(height = 900, title = f'<b>Decomposition Plot</b>', margin={'t':100}, title_x = 0.5, showlegend = True)
