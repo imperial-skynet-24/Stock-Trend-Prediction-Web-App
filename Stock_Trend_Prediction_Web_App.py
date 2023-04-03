@@ -1,4 +1,6 @@
-import streamlit as st, yfinance as yf, pandas as pd, numpy as np, matplotlib as mpl, matplotlib.pyplot as plt
+import streamlit as st
+import yfinance as yf
+import pandas as pd, numpy as np, matplotlib as mpl, matplotlib.pyplot as plt
 from prophet import Prophet
 from prophet.plot import plot_plotly, plot_cross_validation_metric
 from prophet.diagnostics import cross_validation, performance_metrics
